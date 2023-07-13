@@ -1,14 +1,12 @@
 package com.kasina.makeitshort.controller;
 
-import com.kasina.makeitshort.MakeItShortApplication;
 import com.kasina.makeitshort.mode.MakeItShort;
 import com.kasina.makeitshort.mode.MakeItShortDto;
 import com.kasina.makeitshort.mode.MakeItShortResponse;
 import com.kasina.makeitshort.mode.UrlErrorResponseDto;
-import com.kasina.makeitshort.service.MakeItShortService;
 import com.kasina.makeitshort.service.MakeItShortServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +17,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 @RestController
+@RequiredArgsConstructor
 public class MakeItShortController {
     @Autowired
-    private MakeItShortServiceImpl makeItShortService;
+    private final MakeItShortServiceImpl makeItShortService;
 
     @PostMapping("/generate")
     public ResponseEntity<?> generateShortLink(@RequestBody MakeItShortDto makeItShortDto){
@@ -46,7 +45,7 @@ public class MakeItShortController {
             UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
             urlErrorResponseDto.setStatus("Invalid Url");
             urlErrorResponseDto.setError("400");
-            return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto, HttpStatus.OK);
+            return new ResponseEntity<>(urlErrorResponseDto, HttpStatus.OK);
 
         }
 
@@ -56,7 +55,7 @@ public class MakeItShortController {
             UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
             urlErrorResponseDto.setStatus("Url does not exist or it might have expired");
             urlErrorResponseDto.setError("400");
-            return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto, HttpStatus.OK);
+            return new ResponseEntity<>(urlErrorResponseDto, HttpStatus.OK);
         }
         if(shortUrl.getExpirationDate().isBefore(LocalDateTime.now())){
 
@@ -64,7 +63,7 @@ public class MakeItShortController {
             UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
             urlErrorResponseDto.setStatus("Url Expired. Please try generating a fresh one");
             urlErrorResponseDto.setError("200");
-            return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto, HttpStatus.OK);
+            return new ResponseEntity<>(urlErrorResponseDto, HttpStatus.OK);
         }
         response.sendRedirect(shortUrl.getOriginalUrl());
         return null;

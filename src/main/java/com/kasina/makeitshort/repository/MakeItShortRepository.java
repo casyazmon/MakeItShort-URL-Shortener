@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MakeItShortRepository extends JpaRepository<MakeItShort, Long> {
-    public MakeItShort findByShortLink(String shortLink);
+    MakeItShort findByShortLink(String shortLink);
 }

@@ -29,11 +29,7 @@ public class MakeItShortServiceImpl implements MakeItShortService {
             urlToPersist.setShortLink(encodedUrl);
             urlToPersist.setExpirationDate(getExpirationDate(makeItShortDto.getExpirationDate(),
                     urlToPersist.getCreationDate()));
-            MakeItShort shortUrl = persistShortLink(urlToPersist);
-            if (shortUrl != null){
-                return shortUrl;
-            }
-            return null;
+            return persistShortLink(urlToPersist);
         }
         return null;
     }
@@ -46,17 +42,15 @@ public class MakeItShortServiceImpl implements MakeItShortService {
     }
 
     private String encodeUrl(String url) {
-        String encodedUrl = "";
+
         LocalDateTime time = LocalDateTime.now();
-        encodedUrl = Hashing.murmur3_32()
+        return Hashing.murmur3_32()
                 .hashString(url.concat(time.toString()), StandardCharsets.UTF_8).toString();
-        return encodedUrl;
     }
 
     @Override
     public MakeItShort persistShortLink(MakeItShort makeItShort) {
-        MakeItShort shortUrl = makeItShortRepository.save(makeItShort);
-        return shortUrl;
+        return makeItShortRepository.save(makeItShort);
     }
 
     @Override
