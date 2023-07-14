@@ -1,12 +1,11 @@
 package com.kasina.makeitshort.service;
 
 import com.google.common.hash.Hashing;
-import com.kasina.makeitshort.mode.MakeItShort;
-import com.kasina.makeitshort.mode.MakeItShortDto;
+import com.kasina.makeitshort.model.MakeItShort;
+import com.kasina.makeitshort.model.MakeItShortDto;
 import com.kasina.makeitshort.repository.MakeItShortRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;

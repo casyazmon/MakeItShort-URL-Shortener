@@ -1,9 +1,6 @@
-package com.kasina.makeitshort.mode;
+package com.kasina.makeitshort.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +17,6 @@ import java.time.LocalDateTime;
 @Document(collection = "urls")
 public class MakeItShort {
     @Id
-    @GeneratedValue
     private long id;
     @Lob
     private String originalUrl;

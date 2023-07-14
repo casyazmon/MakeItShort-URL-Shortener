@@ -1,4 +1,4 @@
-package com.kasina.makeitshort.mode;
+package com.kasina.makeitshort.model;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

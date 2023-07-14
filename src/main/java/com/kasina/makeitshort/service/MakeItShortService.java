@@ -1,7 +1,7 @@
 package com.kasina.makeitshort.service;
 
-import com.kasina.makeitshort.mode.MakeItShort;
-import com.kasina.makeitshort.mode.MakeItShortDto;
+import com.kasina.makeitshort.model.MakeItShort;
+import com.kasina.makeitshort.model.MakeItShortDto;
 
 public interface MakeItShortService {
     MakeItShort generateShortLink(MakeItShortDto makeItShortDto);

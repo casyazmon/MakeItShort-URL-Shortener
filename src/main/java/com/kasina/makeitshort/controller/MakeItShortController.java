@@ -1,21 +1,19 @@
 package com.kasina.makeitshort.controller;
 
-import com.kasina.makeitshort.mode.MakeItShort;
-import com.kasina.makeitshort.mode.MakeItShortDto;
-import com.kasina.makeitshort.mode.MakeItShortResponse;
-import com.kasina.makeitshort.mode.UrlErrorResponseDto;
+import com.kasina.makeitshort.model.MakeItShort;
+import com.kasina.makeitshort.model.MakeItShortDto;
+import com.kasina.makeitshort.model.MakeItShortResponse;
+import com.kasina.makeitshort.model.UrlErrorResponseDto;
 import com.kasina.makeitshort.service.MakeItShortServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/makeitshort/")
