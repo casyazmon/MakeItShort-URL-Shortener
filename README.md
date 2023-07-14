@@ -55,7 +55,7 @@ MakeItShort is a simple URL shortener API built with Java Spring Boot and MongoD
 
 ## API Documentation
 
-MakeItShort provides a set of APIs for programmatically generating short links and accessing analytics data. Please refer to the [API documentation](API_DOCUMENTATION.md) for detailed information on how to use the APIs.
+MakeItShort provides a set of APIs for programmatically generating short links and accessing analytics data.
 
 ## Contributing
 
