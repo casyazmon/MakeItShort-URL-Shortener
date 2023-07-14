@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Document(collection = "urls")
 public class MakeItShort {
     @Id
-    private long id;
+    private long urlId;
     @Lob
     private String originalUrl;
     private String shortLink;
