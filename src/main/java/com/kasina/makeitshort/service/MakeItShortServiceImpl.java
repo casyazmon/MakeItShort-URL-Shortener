@@ -3,7 +3,7 @@ package com.kasina.makeitshort.service;
 import com.google.common.hash.Hashing;
 import com.kasina.makeitshort.mode.MakeItShort;
 import com.kasina.makeitshort.mode.MakeItShortDto;
-import com.kasina.makeitshort.repository.MakeItShortRepository;
+import com.kasina.makeitshort.repository.MakeItShortRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,13 @@ import java.time.LocalDateTime;
 @Component
 @RequiredArgsConstructor
 public class MakeItShortServiceImpl implements MakeItShortService {
-    @Autowired
-    private final MakeItShortRepository makeItShortRepository;
+
+    private final MakeItShortRepo makeItShortRepository;
 
     @Override
     public MakeItShort generateShortLink(MakeItShortDto makeItShortDto) {
+        // TODO: check if url already exist in the database then return it rather than saving the same url multiple time
+
         if (StringUtils.isNotEmpty(makeItShortDto.getUrl())){
             String encodedUrl = encodeUrl(makeItShortDto.getUrl());
 
@@ -36,7 +38,7 @@ public class MakeItShortServiceImpl implements MakeItShortService {
 
     private LocalDateTime getExpirationDate(String expirationDate, LocalDateTime creationDate) {
         if(StringUtils.isBlank(expirationDate)){
-            return creationDate.plusSeconds(60);
+            return creationDate.plusSeconds(120);
         }
         return LocalDateTime.parse(expirationDate);
     }

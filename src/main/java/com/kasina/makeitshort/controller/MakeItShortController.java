@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/makeitshort/")
 @RequiredArgsConstructor
 public class MakeItShortController {
-    @Autowired
+
     private final MakeItShortServiceImpl makeItShortService;
 
     @PostMapping("/generate")
@@ -30,12 +32,12 @@ public class MakeItShortController {
             makeItShortResponse.setOriginalUrl(makeItShort.getOriginalUrl());
             makeItShortResponse.setExpirationDate(makeItShort.getExpirationDate());
             makeItShortResponse.setShortLink(makeItShort.getShortLink());
-            return new ResponseEntity<MakeItShortResponse>(makeItShortResponse, HttpStatus.OK);
+            return new ResponseEntity<>(makeItShortResponse, HttpStatus.OK);
         }
         UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
         urlErrorResponseDto.setStatus("404");
         urlErrorResponseDto.setError("There was an error processing your request. please try again");
-        return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(urlErrorResponseDto, HttpStatus.OK);
     }
 
     @GetMapping("/{shortLink}")
