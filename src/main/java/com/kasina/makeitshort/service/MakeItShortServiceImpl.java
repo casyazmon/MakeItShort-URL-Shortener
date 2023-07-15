@@ -3,21 +3,13 @@ package com.kasina.makeitshort.service;
 import com.google.common.hash.Hashing;
 import com.kasina.makeitshort.model.MakeItShort;
 import com.kasina.makeitshort.model.MakeItShortDto;
-import com.kasina.makeitshort.model.UrlErrorResponseDto;
 import com.kasina.makeitshort.repository.MakeItShortRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
-import javax.swing.text.DateFormatter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-
-import static org.springframework.util.ClassUtils.isPresent;
 
 @Component
 @RequiredArgsConstructor
