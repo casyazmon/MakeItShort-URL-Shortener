@@ -27,6 +27,7 @@ public class MakeItShortController {
         MakeItShort makeItShort = makeItShortService.generateShortLink(makeItShortDto);
         if (makeItShort != null) {
             MakeItShortResponse makeItShortResponse = new MakeItShortResponse();
+
             makeItShortResponse.setOriginalUrl(makeItShort.getOriginalUrl());
             makeItShortResponse.setExpirationDate(makeItShort.getExpirationDate());
             makeItShortResponse.setShortLink(makeItShort.getShortLink());
@@ -59,7 +60,7 @@ public class MakeItShortController {
         }
         if(shortUrl.getExpirationDate().isBefore(LocalDateTime.now())){
 
-            makeItShortService.deleteShortLink(shortUrl);
+            makeItShortService.deleteShortLink(shortUrl.getUrlId());
             UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
             urlErrorResponseDto.setStatus("Url Expired. Please try generating a fresh one");
             urlErrorResponseDto.setError("200");
@@ -68,4 +69,13 @@ public class MakeItShortController {
         response.sendRedirect(shortUrl.getOriginalUrl());
         return null;
     }
+
+    @DeleteMapping("/{urlId}")
+    public ResponseEntity<?> deleteShortLink(@PathVariable String urlId) {
+
+        makeItShortService.deleteShortLink(urlId);
+        return ResponseEntity.ok("Url deleted successfully");
+    }
+
+
 }

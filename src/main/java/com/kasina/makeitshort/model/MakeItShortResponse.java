@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @RequiredArgsConstructor
 public class MakeItShortResponse {
+
     private String originalUrl;
     private String shortLink;
     private LocalDateTime expirationDate;

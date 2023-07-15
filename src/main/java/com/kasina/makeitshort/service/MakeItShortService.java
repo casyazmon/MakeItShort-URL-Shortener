@@ -7,6 +7,6 @@ public interface MakeItShortService {
     MakeItShort generateShortLink(MakeItShortDto makeItShortDto);
     MakeItShort persistShortLink(MakeItShort makeItShort);
     MakeItShort getEncoderUrl(String url);
-    void deleteShortLink(MakeItShort makeItShort);
+    void deleteShortLink(String urlId);
 
 }

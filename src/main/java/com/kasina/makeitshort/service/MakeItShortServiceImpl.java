@@ -3,13 +3,21 @@ package com.kasina.makeitshort.service;
 import com.google.common.hash.Hashing;
 import com.kasina.makeitshort.model.MakeItShort;
 import com.kasina.makeitshort.model.MakeItShortDto;
+import com.kasina.makeitshort.model.UrlErrorResponseDto;
 import com.kasina.makeitshort.repository.MakeItShortRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.DateFormatter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+import static org.springframework.util.ClassUtils.isPresent;
 
 @Component
 @RequiredArgsConstructor
@@ -25,6 +33,7 @@ public class MakeItShortServiceImpl implements MakeItShortService {
             String encodedUrl = encodeUrl(makeItShortDto.getUrl());
 
             MakeItShort urlToPersist = new MakeItShort();
+            System.out.println(" Current Url ID is: ******" +urlToPersist.getUrlId());
             urlToPersist.setCreationDate(LocalDateTime.now());
             urlToPersist.setOriginalUrl(makeItShortDto.getUrl());
             urlToPersist.setShortLink(encodedUrl);
@@ -36,10 +45,15 @@ public class MakeItShortServiceImpl implements MakeItShortService {
     }
 
     private LocalDateTime getExpirationDate(String expirationDate, LocalDateTime creationDate) {
+        // TODO: check if date is in the correct format
         if(StringUtils.isBlank(expirationDate)){
             return creationDate.plusSeconds(120);
         }
-        return LocalDateTime.parse(expirationDate);
+
+        return LocalDateTime.parse(
+                expirationDate + "T00:00:00",  // Append a default time of 00:00:00
+                DateTimeFormatter.ISO_LOCAL_DATE_TIME
+        );
     }
 
     private String encodeUrl(String url) {
@@ -60,7 +74,15 @@ public class MakeItShortServiceImpl implements MakeItShortService {
     }
 
     @Override
-    public void deleteShortLink(MakeItShort makeItShort) {
-        makeItShortRepository.delete(makeItShort);
+    public void deleteShortLink(String urlId) {
+        if (StringUtils.isEmpty(urlId) && makeItShortRepository.findById(urlId).isEmpty()){
+
+            throw new IllegalStateException("Url does not exist or it might have expired");
+        }
+        makeItShortRepository.deleteById(urlId);
     }
+
+//    public void deleteShortLink(String urlId) {
+//        makeItShortRepository.deleteById(urlId);
+//    }
 }
