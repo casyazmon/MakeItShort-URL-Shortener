@@ -21,8 +21,8 @@ public class MakeItShortServiceImpl implements MakeItShortService {
     public MakeItShort generateShortLink(MakeItShortDto makeItShortDto) {
         // TODO: check if url already exist in the database then return it rather than saving the same url multiple time
 
-        if (StringUtils.isNotEmpty(makeItShortDto.getUrl())){
-            String encodedUrl = encodeUrl(makeItShortDto.getUrl());
+        if (StringUtils.isNotEmpty(makeItShortDto.getUrl()) && isShortLinkUnique(makeItShortDto.getShortLink())){
+            String encodedUrl = encodeUrl(makeItShortDto.getShortLink());
 
             MakeItShort urlToPersist = new MakeItShort();
             System.out.println(" Current Url ID is: ******" +urlToPersist.getUrlId());
@@ -48,11 +48,13 @@ public class MakeItShortServiceImpl implements MakeItShortService {
         );
     }
 
-    private String encodeUrl(String url) {
-
-        LocalDateTime time = LocalDateTime.now();
-        return Hashing.murmur3_32()
-                .hashString(url.concat(time.toString()), StandardCharsets.UTF_8).toString();
+    private String encodeUrl(String customUrl) {
+        if (StringUtils.isBlank(customUrl)){
+            LocalDateTime time = LocalDateTime.now();
+            return Hashing.murmur3_32()
+                    .hashString(customUrl.concat(time.toString()), StandardCharsets.UTF_8).toString();
+        }
+        return customUrl;
     }
 
     @Override
@@ -74,7 +76,8 @@ public class MakeItShortServiceImpl implements MakeItShortService {
         makeItShortRepository.deleteById(urlId);
     }
 
-//    public void deleteShortLink(String urlId) {
-//        makeItShortRepository.deleteById(urlId);
-//    }
+    private boolean isShortLinkUnique(String shortLink) {
+        // Check if any existing MakeItShort object has the same shortLink value
+        return makeItShortRepository.findByShortLink(shortLink) == null;
+    }
 }

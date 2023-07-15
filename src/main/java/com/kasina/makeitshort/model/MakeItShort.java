@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,6 +23,8 @@ public class MakeItShort {
 
     @Lob
     private String originalUrl;
+
+    @Indexed(unique = true)
     private String shortLink;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime creationDate;
