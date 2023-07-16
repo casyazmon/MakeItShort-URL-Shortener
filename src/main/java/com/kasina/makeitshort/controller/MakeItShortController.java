@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/makeitshort/")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class MakeItShortController {
 
     private final MakeItShortServiceImpl makeItShortService;

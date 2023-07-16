@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class MakeItShortServiceImpl implements MakeItShortService {
     private LocalDateTime getExpirationDate(String expirationDate, LocalDateTime creationDate) {
         // TODO: check if date is in the correct format
         if(StringUtils.isBlank(expirationDate)){
-            return creationDate.plusSeconds(120);
+            return creationDate.plusHours(24);
         }
 
         return LocalDateTime.parse(
@@ -52,7 +53,7 @@ public class MakeItShortServiceImpl implements MakeItShortService {
         if (StringUtils.isBlank(customUrl)){
             LocalDateTime time = LocalDateTime.now();
             return Hashing.murmur3_32()
-                    .hashString(customUrl.concat(time.toString()), StandardCharsets.UTF_8).toString();
+                    .hashString(generateRandomString().concat(time.toString()), StandardCharsets.UTF_8).toString();
         }
         return customUrl;
     }
@@ -79,5 +80,10 @@ public class MakeItShortServiceImpl implements MakeItShortService {
     private boolean isShortLinkUnique(String shortLink) {
         // Check if any existing MakeItShort object has the same shortLink value
         return makeItShortRepository.findByShortLink(shortLink) == null;
+    }
+
+    private String generateRandomString() {
+        String randomUUID = UUID.randomUUID().toString().replace("-", "");
+        return randomUUID.substring(0, 6);
     }
 }

@@ -1,5 +1,6 @@
 package com.kasina.makeitshort.model;
 
+import com.kasina.makeitshort.model.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,8 @@ public class MakeItShort {
     private LocalDateTime creationDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime expirationDate;
+
+    private User user;
 
 
     public MakeItShort() {
