@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,7 +32,7 @@ public class MakeItShort {
     private LocalDateTime creationDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime expirationDate;
-
+    @DBRef
     private User user;
 
 

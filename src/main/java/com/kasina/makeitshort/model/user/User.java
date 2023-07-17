@@ -1,6 +1,7 @@
 package com.kasina.makeitshort.model.user;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kasina.makeitshort.model.MakeItShort;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,12 +30,15 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     @DBRef
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
-    private List<MakeItShort> urls = new ArrayList<>();
+    /*@DBRef
+    private List<MakeItShort> urls = new ArrayList<>();*/
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override

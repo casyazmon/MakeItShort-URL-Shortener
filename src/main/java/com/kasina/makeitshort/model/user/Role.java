@@ -5,19 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Document(collection = "roles")
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
-    @Column(name="role_id")
     private String id;
-    private ERole role;
+    private String name;
 
-
+    @Override
+    public String getAuthority() {
+        return name;
+    }
 }

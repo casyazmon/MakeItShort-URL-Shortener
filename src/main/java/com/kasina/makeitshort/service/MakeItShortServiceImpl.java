@@ -3,6 +3,7 @@ package com.kasina.makeitshort.service;
 import com.google.common.hash.Hashing;
 import com.kasina.makeitshort.model.MakeItShort;
 import com.kasina.makeitshort.model.MakeItShortDto;
+import com.kasina.makeitshort.model.user.User;
 import com.kasina.makeitshort.repository.MakeItShortRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -17,10 +18,13 @@ import java.util.UUID;
 public class MakeItShortServiceImpl implements MakeItShortService {
 
     private final MakeItShortRepo makeItShortRepository;
+    private final UserService userService;
 
     @Override
     public MakeItShort generateShortLink(MakeItShortDto makeItShortDto) {
         // TODO: check if url already exist in the database then return it rather than saving the same url multiple time
+        // GET LOGIN USER
+        User currentUser = userService.getCurrentUser();
 
         if (StringUtils.isNotEmpty(makeItShortDto.getUrl()) && isShortLinkUnique(makeItShortDto.getShortLink())){
             String encodedUrl = encodeUrl(makeItShortDto.getShortLink());
@@ -32,6 +36,7 @@ public class MakeItShortServiceImpl implements MakeItShortService {
             urlToPersist.setShortLink(encodedUrl);
             urlToPersist.setExpirationDate(getExpirationDate(makeItShortDto.getExpirationDate(),
                     urlToPersist.getCreationDate()));
+            urlToPersist.setUser(currentUser);
             return persistShortLink(urlToPersist);
         }
         return null;

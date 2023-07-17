@@ -5,6 +5,8 @@ import com.kasina.makeitshort.model.MakeItShortDto;
 import com.kasina.makeitshort.model.MakeItShortResponse;
 import com.kasina.makeitshort.model.UrlErrorResponseDto;
 import com.kasina.makeitshort.service.MakeItShortServiceImpl;
+import com.kasina.makeitshort.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/makeitshort/")
@@ -22,6 +25,7 @@ import java.time.LocalDateTime;
 public class MakeItShortController {
 
     private final MakeItShortServiceImpl makeItShortService;
+    private final UserService userService;
 
     @PostMapping("/generate")
     public ResponseEntity<?> generateShortLink(@RequestBody MakeItShortDto makeItShortDto){
@@ -76,6 +80,12 @@ public class MakeItShortController {
 
         makeItShortService.deleteShortLink(urlId);
         return ResponseEntity.ok("Url deleted successfully");
+    }
+
+    @GetMapping("/user/urls")
+    public ResponseEntity<List<MakeItShort>> getAllUrlsForCurrentUser() {
+        List<MakeItShort> urls = userService.getAllUrlsForUser();
+        return ResponseEntity.ok(urls);
     }
 
 
