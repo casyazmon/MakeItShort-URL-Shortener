@@ -1,14 +1,14 @@
 package com.kasina.makeitshort.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.kasina.makeitshort.model.MakeItShort;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,19 +21,20 @@ import java.util.*;
 @AllArgsConstructor
 public class User implements UserDetails {
     @Id
-    private Long id;
+    private String id;
     @Column(unique = true)
+    private String username;
     private String email;
     private String password;
     private String firstName;
     private String lastName;
-
+    @DBRef
     private Set<Role> roles = new HashSet<>();
     private List<MakeItShort> urls = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
+        return null;
     }
 
     @Override

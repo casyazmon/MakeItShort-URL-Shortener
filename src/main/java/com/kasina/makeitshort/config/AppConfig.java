@@ -1,6 +1,6 @@
 package com.kasina.makeitshort.config;
 
-import com.kasina.automobileapi.repository.UserRepository;
+import com.kasina.makeitshort.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

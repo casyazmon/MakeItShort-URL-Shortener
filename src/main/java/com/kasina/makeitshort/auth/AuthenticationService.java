@@ -1,5 +1,6 @@
 package com.kasina.makeitshort.auth;
 
+import com.kasina.makeitshort.config.JwtService;
 import com.kasina.makeitshort.model.user.RegisterRequest;
 import com.kasina.makeitshort.model.user.Role;
 import com.kasina.makeitshort.model.user.User;
@@ -21,6 +22,7 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
 
@@ -40,7 +42,10 @@ public class AuthenticationService {
                 .roles(roles)
                 .build();
         userRepository.save(user);
-        return null; // TODO return jwt token
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 
     public AuthenticationResponse login(LoginRequest request){
@@ -52,6 +57,9 @@ public class AuthenticationService {
         );
         var user = userRepository.findUserByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return null; // TODO return jwt token
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 }

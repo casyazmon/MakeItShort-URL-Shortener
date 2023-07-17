@@ -4,22 +4,20 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Document(collection = "roles")
-public class Role implements GrantedAuthority {
+public class Role {
     @Id
     @Column(name="role_id")
-    private Long id;
-    @Column(unique = true)
-    private String name;
+    private String id;
+    private ERole role;
 
-    @Override
-    public String getAuthority() {
-        return this.name;
-    }
+
 }
