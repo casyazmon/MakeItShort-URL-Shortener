@@ -67,4 +67,8 @@ public class UserService implements UserDetailsService {
         User currentUser = getCurrentUser();
         return makeItShortRepo.findByUser(currentUser);
     }
+
+    public List<MakeItShort> getAllUrls() {
+        return makeItShortRepo.findAll();
+    }
 }

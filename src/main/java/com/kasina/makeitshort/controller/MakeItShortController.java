@@ -88,5 +88,11 @@ public class MakeItShortController {
         return ResponseEntity.ok(urls);
     }
 
+    @GetMapping
+    public ResponseEntity<List<MakeItShort>> getAllUrls() {
+        List<MakeItShort> urls = userService.getAllUrls();
+        return ResponseEntity.ok(urls);
+    }
+
 
 }

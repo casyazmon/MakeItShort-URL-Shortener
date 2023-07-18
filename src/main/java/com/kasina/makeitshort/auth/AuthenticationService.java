@@ -29,6 +29,9 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse registerUser(RegisterRequest registerRequest) {
+        /*if (isUsernameTaken(registerRequest.getEmail())){
+            return null;
+        }*/
         Set<Role> roles = new HashSet<>();
 
 
@@ -61,6 +64,7 @@ public class AuthenticationService {
             });
         }*/
 
+
         for (String roleName : registerRequest.getRoles()) {
             Role role = roleRepository.findByName(roleName)
                     .orElseThrow(() -> new IllegalArgumentException("Role not found: " + roleName));
@@ -79,6 +83,10 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
 
+    }
+
+    public boolean isUsernameTaken(String username) {
+        return userRepository.findUserByEmail(username).isPresent();
     }
 
     public AuthenticationResponse login(LoginRequest request) {
